@@ -55,23 +55,25 @@ public class OMGAGFX extends Application {
 	
 	AnimationTimer at = new AnimationTimer(){
 	    
-	    
-	    long LastUpdate = 0;
+	    long lastTime = startNanoTime; 
+	    long lastUpdate = 0;
 	    int fps = 0;
+	    
 	    
 	    @Override
 	    public void handle(long currentNanoTime) {
-		double t = (currentNanoTime - startNanoTime) / 1000000000.0; 
+		double t = (currentNanoTime - startNanoTime) / 1000000000.0;
+		double delta = currentNanoTime - lastTime;
 		
 		gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 		fps++;
 		
 		
-		if(LastUpdate - currentNanoTime < -1000000000)
+		if(lastUpdate - currentNanoTime < -1000000000)
 		{
 		    System.out.println("FPS: " + fps);
 		    fps = 0;
-		    LastUpdate = currentNanoTime;
+		    lastUpdate = currentNanoTime;
 		}
 		
 	    }

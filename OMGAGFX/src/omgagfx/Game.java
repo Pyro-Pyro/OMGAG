@@ -11,4 +11,9 @@ package omgagfx;
  */
 public class Game {
     
+    Game()
+    {
+	
+    }
+    
 }

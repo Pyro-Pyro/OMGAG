@@ -11,4 +11,8 @@ package omgagfx;
  */
 public class GameObject {
     
+    protected double x, y, velx, vely, width, height;
+    
+    
+    
 }

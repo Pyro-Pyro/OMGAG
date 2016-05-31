@@ -5,10 +5,20 @@
  */
 package omgagfx;
 
+import javafx.scene.canvas.Canvas;
+
 /**
  *
  * @author Ben
  */
-public class Renderer {
+public class Renderer extends Canvas{
+    
+    Game game;
+    
+    Renderer(Game game)
+    {
+	super();
+	this.game = game;
+    }
     
 }
