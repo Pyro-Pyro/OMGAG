@@ -10,7 +10,6 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -32,6 +31,7 @@ public class OMGAGFX extends Application {
     @Override
     public void start(Stage stage) throws Exception {
 	stage.setTitle("OMGAG");
+	stage.setFullScreen(true);
 	
 	Group root = new Group();
 	Scene scene = new Scene(root);
@@ -50,21 +50,6 @@ public class OMGAGFX extends Application {
 	gc.fillText("OMGAG TEST", 60, 50);
 	gc.strokeText("OMGAG TEST", 60, 50);
 	
-	Animation a = new Animation();
-	a.frameDuration = 0.05;
-	Image[] ia = new Image[40];
-	for (int i = 0; i < 40; i++) {
-	    String s = "res/walking animation/main walk00";
-	    if(i < 9)
-	    {
-		s += '0';
-	    }
-	    int j = i + 1;
-	    s = s + j + ".png";
-	    System.out.println(s);
-	    ia[i] = new Image(s);
-	}
-	a.frames = ia;
 	
 	final long startNanoTime = System.nanoTime();
 	
@@ -80,7 +65,7 @@ public class OMGAGFX extends Application {
 		
 		gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 		fps++;
-		gc.drawImage(a.getFrame(t), 50, 50, 200, 200);
+		
 		
 		if(LastUpdate - currentNanoTime < -1000000000)
 		{

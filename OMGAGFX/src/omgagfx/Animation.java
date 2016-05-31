@@ -12,6 +12,7 @@ import javafx.scene.image.Image;
  * @author Ben
  */
 public class Animation {
+    
     public Image[] frames;
     public double frameDuration;
     
