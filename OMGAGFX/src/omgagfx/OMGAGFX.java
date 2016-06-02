@@ -6,13 +6,11 @@ package omgagfx;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
 /**
@@ -31,31 +29,56 @@ public class OMGAGFX extends Application {
     @Override
     public void start(Stage stage) throws Exception {
 	stage.setTitle("OMGAG");
-	stage.setFullScreen(true);
 	
 	Group root = new Group();
 	Scene scene = new Scene(root);
 	stage.setScene(scene);
-	
-	Canvas canvas = new Canvas(1000,1000);
-	root.getChildren().add(canvas);
-	
-	GraphicsContext gc = canvas.getGraphicsContext2D();
-	
-	gc.setFill(Color.BLUE);
-	gc.setStroke(Color.BLACK);
-	gc.setLineWidth(2);
-	Font font = Font.font("Times New Roman", FontWeight.THIN, 48);
-	gc.setFont(font);
-	gc.fillText("OMGAG TEST", 60, 50);
-	gc.strokeText("OMGAG TEST", 60, 50);
-	
+	Game game = new Game();
+	Renderer render = new Renderer(game, 1500, 900);
+	root.getChildren().add(render);
 	
 	final long startNanoTime = System.nanoTime();
 	
+	scene.setOnKeyPressed(new EventHandler<KeyEvent>(){
+
+	    @Override
+	    public void handle(KeyEvent event) {
+		switch(event.getCode())
+		{
+		    case UP: game.up = true; break;
+		    case DOWN: game.down = true; break;
+		    case RIGHT: game.right = true; break;
+		    case LEFT: game.left = true; break;
+		    case W: game.up = true; break;
+		    case A: game.left = true; break;
+		    case S: game.down = true; break;
+		    case D: game.right = true; break;
+		}
+	    }
+	});
+	
+	scene.setOnKeyReleased(new EventHandler<KeyEvent>(){
+
+	    @Override
+	    public void handle(KeyEvent event) {
+		switch(event.getCode())
+		{
+		    case UP: game.up = false; break;
+		    case DOWN: game.down = false; break;
+		    case RIGHT: game.right = false; break;
+		    case LEFT: game.left = false; break;
+		    case W: game.up = false; break;
+		    case A: game.left = false; break;
+		    case S: game.down = false; break;
+		    case D: game.right = false; break;
+		}
+		
+	    }
+	});
+	
 	AnimationTimer at = new AnimationTimer(){
 	    
-	    long lastTime = startNanoTime; 
+	    long lastTime = System.currentTimeMillis(); 
 	    long lastUpdate = 0;
 	    int fps = 0;
 	    
@@ -63,11 +86,17 @@ public class OMGAGFX extends Application {
 	    @Override
 	    public void handle(long currentNanoTime) {
 		double t = (currentNanoTime - startNanoTime) / 1000000000.0;
-		double delta = currentNanoTime - lastTime;
 		
-		gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+		long currentMilTime = System.currentTimeMillis();
+		//delta is in seconds
+		double delta = (double)(currentMilTime - lastTime)/1000;
+		lastTime = currentMilTime;
+		
 		fps++;
 		
+		game.update(delta);
+		render.render(t);
+		System.out.println(delta);
 		
 		if(lastUpdate - currentNanoTime < -1000000000)
 		{

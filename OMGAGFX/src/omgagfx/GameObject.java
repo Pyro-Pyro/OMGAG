@@ -9,10 +9,43 @@ package omgagfx;
  *
  * @author Ben
  */
-public class GameObject {
+public abstract class GameObject {
     
+    Game game;
+    
+    public enum type
+    {
+	Player,
+	Enemy
+    }
+    
+    GameObject(double x, double y, double w, double h, Game game)
+    {
+	this.x = x;
+	this.y = y;
+	velx = 0;
+	vely = 0;
+	this.height = h;
+	this.width = w;
+	this.game = game;
+    }
+    
+    //the x,y, x velocity, y velocity, object width and object height in game units.
     protected double x, y, velx, vely, width, height;
     
+    public abstract void update(double delta);
+    
+    protected void updatePosition(double delta)
+    {
+	x = x + (velx*delta);
+	y = y + (vely*delta);
+	
+	if(x < 0){x = 0;}
+	if(x > game.boardSize.getWidth()){x = game.boardSize.getWidth();}
+	if(y < 0){y = 0;}
+	if(y > game.boardSize.getHeight()){y = game.boardSize.getHeight();}
+	
+    }
     
     
 }

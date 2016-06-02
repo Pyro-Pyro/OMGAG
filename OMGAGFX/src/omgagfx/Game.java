@@ -5,15 +5,29 @@
  */
 package omgagfx;
 
+import java.awt.Dimension;
+
 /**
  *
  * @author Ben
  */
 public class Game {
     
+    public boolean left,right,up,down;
+    
+    public Dimension boardSize;
+    
+    Player player;
+    
     Game()
     {
-	
+	boardSize = new Dimension(500,500);
+	player = new Player(250,250, this);
+    }
+    
+    public void update(double delta)
+    {
+	player.update(delta);
     }
     
 }
