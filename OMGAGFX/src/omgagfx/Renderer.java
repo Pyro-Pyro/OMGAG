@@ -30,7 +30,28 @@ public class Renderer extends Canvas{
     
     //anchor points for the background image, state where the corners of the map are on the image
     //t stands for top, b stands for bottom, l for left and r for right
+    //the maths here are designed to work just for perfect trapeziums... with the bottom edge being longer than the top.
     Point tl,tr,bl,br;
+    
+    public double getBackgroundHeight()
+    {
+	return bl.y - tl.y;
+    }
+    
+    public double getBackgroundWidth(double y)
+    {
+	double x = tr.x - tl.x;
+	
+	double xoffset = tl.x - bl.x;
+	
+	double scale = xoffset/getBackgroundHeight();
+	
+	double newXOffset = y * scale;
+	
+	x = x + (2*newXOffset);
+	
+	return x;
+    }
     
     Renderer(Game game, int x, int y)
     {
@@ -71,19 +92,40 @@ public class Renderer extends Canvas{
     
     public void render(double t)
     {
+	gc.clearRect(0, 0, getWidth(), getHeight());
 	drawBackground();
 	drawPlayer(t);
     }
     
+    private final double backgroundScale = 2;
     private void drawBackground()
     {
-	gc.drawImage(images.get("background"), 0, -400);
+	Image back = images.get("background");
+	double yoffset = getBackgroundHeight() * (game.camera.y/game.boardSize.getHeight());
+	double x = bl.x + backgroundExcess(yoffset) + (getBackgroundWidth(yoffset) * (game.camera.x/game.boardSize.getWidth()));
+	double y = tl.y + ((game.camera.y/game.boardSize.getHeight()) * getBackgroundHeight());
+	gc.drawImage(back, ((-x) * backgroundScale) + getWidth()/2, ((-y) * backgroundScale) + getHeight()/2,backgroundScale * back.getWidth(),backgroundScale * back.getHeight());
     }
     
     private void drawPlayer(double t)
     {
-	gc.drawImage(animations.get("player").getFrame(t), game.player.x, game.player.y, game.player.width, game.player.height);
+	gc.fillRect(this.getWidth()/2 + (game.player.x - game.camera.x) - 50, this.getHeight()/2 + (game.player.y - game.camera.y) - 50, 100, 100);
+	//gc.drawImage(animations.get("player").getFrame(t), game.player.x, game.player.y, game.player.width, game.player.height);
     }
+    
+    public double backgroundExcess(double y)
+    {
+	double xoffset = tl.x - bl.x;
+	
+	double scale = xoffset/getBackgroundHeight();
+	
+	double newXOffset = y * scale;
+	
+	return xoffset -  newXOffset;
+	
+    }
+    
+    
 
     
 }

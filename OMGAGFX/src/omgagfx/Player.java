@@ -15,19 +15,25 @@ public class Player extends GameObject{
     
     Player(int x, int y, Game game)
     {
-	super(x,y,100,100,game);
+	super(x,y,50,50,game);
 	//acc = 5;
-	speed = 20;
+	speed = 50;
     }
     
-    //acceleration in game units per second
-    //private final double acc;
-    
     //maximum velocity in game units per second
-    private final double speed;
+    private double speed;
     
     @Override
     public void update(double delta) {
+	
+	if(game.boost)
+	{
+	    speed = 100;
+	}
+	else
+	{
+	    speed = 50;
+	}
 	
 	if(game.up && !game.down)
 	{

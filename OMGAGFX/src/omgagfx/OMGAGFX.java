@@ -53,6 +53,7 @@ public class OMGAGFX extends Application {
 		    case A: game.left = true; break;
 		    case S: game.down = true; break;
 		    case D: game.right = true; break;
+		    case SPACE: game.boost = true; break;
 		}
 	    }
 	});
@@ -71,6 +72,7 @@ public class OMGAGFX extends Application {
 		    case A: game.left = false; break;
 		    case S: game.down = false; break;
 		    case D: game.right = false; break;
+		    case SPACE: game.boost = false; break;
 		}
 		
 	    }
@@ -96,7 +98,6 @@ public class OMGAGFX extends Application {
 		
 		game.update(delta);
 		render.render(t);
-		System.out.println(delta);
 		
 		if(lastUpdate - currentNanoTime < -1000000000)
 		{

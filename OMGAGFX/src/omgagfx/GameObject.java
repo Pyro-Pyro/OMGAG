@@ -32,6 +32,54 @@ public abstract class GameObject {
     
     //the x,y, x velocity, y velocity, object width and object height in game units.
     protected double x, y, velx, vely, width, height;
+
+    public double getX() {
+	return x;
+    }
+
+    public void setX(double x) {
+	this.x = x;
+    }
+
+    public double getY() {
+	return y;
+    }
+
+    public void setY(double y) {
+	this.y = y;
+    }
+
+    public double getVelx() {
+	return velx;
+    }
+
+    public void setVelx(double velx) {
+	this.velx = velx;
+    }
+
+    public double getVely() {
+	return vely;
+    }
+
+    public void setVely(double vely) {
+	this.vely = vely;
+    }
+
+    public double getWidth() {
+	return width;
+    }
+
+    public void setWidth(double width) {
+	this.width = width;
+    }
+
+    public double getHeight() {
+	return height;
+    }
+
+    public void setHeight(double height) {
+	this.height = height;
+    }
     
     public abstract void update(double delta);
     
