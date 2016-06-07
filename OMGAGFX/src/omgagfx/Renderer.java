@@ -73,6 +73,12 @@ public class Renderer extends Canvas{
     {
 	Image back = new Image("res/background.png");
 	images.put("background", back);
+	
+	Image ghd = new Image("res/ghost/GhostHeadDark.png");
+	images.put("ghostHeadDark", ghd);
+	
+	Image ghl = new Image("res/ghost/GhostHeadLight.png");
+	images.put("ghostHeadLight", ghl);
     }
     private void initialiseAnimations()
     {
@@ -125,6 +131,22 @@ public class Renderer extends Canvas{
 	
     }
     
+    private void drawGhost(Ghost g, double t)
+    {
+	double boundary = 100;
+	
+	double distance = Math.abs(game.player.x - g.x) + Math.abs(game.player.y - g.y);
+	
+	double x = getWidth()/2 + this.getBackgroundWidth(t);
+	
+	Image ghl = images.get("ghostHeadLight");
+	gc.drawImage(ghl, 0, 0, 200, 200);
+	
+	gc.setGlobalAlpha(distance/boundary);
+	Image ghd = images.get("ghostHeadDark");
+	gc.drawImage(ghd, 0, 0, 200, 200);
+	gc.setGlobalAlpha(1);
+    }
     
 
     

@@ -17,22 +17,23 @@ public class Player extends GameObject{
     {
 	super(x,y,50,50,game);
 	//acc = 5;
-	speed = 50;
+	refSpeed = 50;
     }
     
     //maximum velocity in game units per second
-    private double speed;
+    private double refSpeed;
     
     @Override
     public void update(double delta) {
 	
+	double speed;
 	if(game.boost)
 	{
-	    speed = 100;
+	    speed = refSpeed*2;
 	}
 	else
 	{
-	    speed = 50;
+	    speed = refSpeed;
 	}
 	
 	if(game.up && !game.down)

@@ -14,6 +14,11 @@ import java.util.ArrayList;
  */
 public class Game {
     
+    public enum gameState
+    {
+	
+    }
+    
     public boolean left,right,up,down,boost;
     
     public Dimension boardSize;
@@ -48,10 +53,52 @@ public class Game {
 	};
     }
     
+    public void gameOver()
+    {
+	
+    }
+    
+    public void setupGame()
+    {
+	player.setVelx(0);
+	player.setVely(0);
+	player.setX(boardSize.width/2);
+	player.setY(boardSize.height/2);
+	
+	ghosts.removeAll(ghosts);
+	spawnRandomGhost();
+    }
+    
+    public void spawnGhost(double x, double y)
+    {
+	Ghost ghost = new Ghost(x,y,this);
+    }
+    public void spawnRandomGhost()
+    {
+	double boundary = 50;
+	
+	double x = Math.random() * boardSize.width;
+	while(x < player.x + boundary && x > player.x - boundary)
+	{
+	    x = Math.random() * boardSize.width;
+	}
+	
+	double y = Math.random() * boardSize.height;
+	while(y < player.y + boundary && y > player.y - boundary)
+	{
+	    y = Math.random() * boardSize.height;
+	}
+	
+	spawnGhost(x,y);
+    }
+
     public void update(double delta)
     {
 	player.update(delta);
 	camera.update(delta);
+	for (Ghost g : ghosts) {
+	    g.update(delta);
+	}
     }
     
 }
